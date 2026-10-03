@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>For You ♡</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#ff2e93;--mag:#d6459f;--lav:#a78bfa;--bg:#09070c;--glass:rgba(255,255,255,.06);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:radial-gradient(ellipse at 50% 30%,#1e0f24 0%,#0d0912 45%,#050407 100%);color:#fff;font-family:var(--sans);font-weight:300;overflow:hidden;padding-top:env(safe-area-inset-top,0);padding-bottom:env(safe-area-inset-bottom,0)}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.p{position:absolute;bottom:-20px;border-radius:50%;background:var(--pink);box-shadow:0 0 8px var(--pink);opacity:0;animation:rise linear infinite}
+.h{position:absolute;bottom:-30px;color:var(--pink);text-shadow:0 0 10px var(--pink);opacity:0;animation:rise linear infinite}
+@keyframes rise{10%{opacity:.8}90%{opacity:.5}100%{transform:translateY(-110vh) translateX(var(--dx,20px));opacity:0}}
+.screen{position:fixed;inset:0;z-index:1;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;overflow-y:auto;opacity:0}
+.screen.active{display:flex;animation:in 1s ease forwards}
+.screen>*{margin-left:auto;margin-right:auto}
+@keyframes in{from{opacity:0;transform:scale(.97);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+h1,h2{font-family:var(--serif);font-weight:400;line-height:1.15;text-shadow:0 0 24px rgba(255,46,147,.55)}
+h1{font-size:clamp(2.2rem,8vw,4rem)}h2{font-size:clamp(1.7rem,6vw,2.8rem)}
+.sub{margin:22px 0 34px;line-height:1.9;color:#d9cfe3;font-size:1.05rem}
+.btn{font:500 1rem var(--sans);color:#fff;background:linear-gradient(135deg,rgba(255,46,147,.35),rgba(167,139,250,.3));border:1px solid rgba(255,120,200,.6);padding:16px 36px;border-radius:50px;cursor:pointer;min-height:52px;box-shadow:0 0 22px rgba(255,46,147,.4);backdrop-filter:blur(8px);transition:.3s;letter-spacing:.04em}
+.btn:hover,.btn:active{transform:scale(1.05);box-shadow:0 0 38px rgba(255,46,147,.8)}
+.btn.ghost{background:transparent;border-color:rgba(255,255,255,.3);box-shadow:none}
+.heart{font-size:5rem;color:var(--pink);text-shadow:0 0 30px var(--pink),0 0 70px var(--mag);animation:beat 1.6s ease-in-out infinite;margin-bottom:26px}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(1)}45%{transform:scale(1.1)}}
+input,textarea{width:100%;max-width:520px;background:var(--glass);border:1px solid rgba(255,255,255,.2);border-radius:18px;color:#fff;font:300 1.05rem var(--sans);padding:16px 18px;outline:none;backdrop-filter:blur(10px);transition:.3s}
+input:focus,textarea:focus{border-color:var(--pink);box-shadow:0 0 24px rgba(255,46,147,.4)}
+textarea{height:42vh;min-height:170px;resize:none;line-height:1.7;margin-bottom:22px}
+.shake{animation:shk .45s}
+@keyframes shk{20%{transform:translateX(-10px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
+#err{min-height:60px;margin:14px 0;color:#ff7ab8;line-height:1.7}
+.top{font-family:var(--serif);font-style:italic;font-size:1.4rem;color:var(--lav);margin-bottom:6px}
+.prog{letter-spacing:.25em;color:#b9a9c9;font-size:.85rem;margin-bottom:6px}
+.bar{width:min(520px,100%);height:3px;background:rgba(255,255,255,.1);border-radius:3px;margin-bottom:26px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--lav),var(--pink));box-shadow:0 0 10px var(--pink);transition:width .6s}
+#qtext{font-family:var(--serif);font-size:clamp(1.5rem,5.5vw,2.3rem);line-height:1.3;max-width:620px;margin-bottom:24px;text-shadow:0 0 18px rgba(255,46,147,.4)}
+.big{font-family:var(--serif);font-size:clamp(4rem,22vw,9rem);color:var(--pink);text-shadow:0 0 40px var(--pink)}
+/* glitch */
+body.glitch .screen.active{opacity:1;animation:gshake calc(.5s/var(--g,1)) infinite}
+body.glitch::after{content:"";position:fixed;inset:0;z-index:50;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.35) 0 2px,transparent 2px 5px);mix-blend-mode:multiply;animation:flick calc(.4s/var(--g,1)) infinite}
+body.glitch .screen.active h1,body.glitch .screen.active h2,body.glitch .screen.active .big{text-shadow:3px 0 #0ff,-3px 0 var(--pink),0 0 30px var(--pink);animation:skew calc(.7s/var(--g,1)) steps(2) infinite}
+@keyframes gshake{0%,100%{transform:translate(0)}20%{transform:translate(calc(-4px*var(--g,1)),2px)}40%{transform:translate(calc(5px*var(--g,1)),-3px)}60%{transform:translate(-2px,calc(4px*var(--g,1)))}80%{transform:translate(3px,-2px)}}
+@keyframes flick{0%,100%{opacity:.9}50%{opacity:.3}70%{opacity:1}}
+@keyframes skew{0%{transform:skewX(0)}50%{transform:skewX(calc(-8deg*var(--g,1)))}100%{transform:skewX(calc(6deg*var(--g,1)))}}
+.gl{position:fixed;left:0;width:100%;height:calc(4px*var(--g,1));background:var(--pink);opacity:.7;z-index:49;display:none;animation:gl .6s steps(4) infinite}
+body.glitch .gl{display:block}
+@keyframes gl{0%{top:10%}25%{top:70%}50%{top:35%}75%{top:90%}100%{top:20%}}
+.sys{font-family:monospace;color:#ff4d6d;font-size:1.05rem;line-height:2;text-shadow:2px 0 #0ff}
+.sys b{font-size:clamp(1.8rem,8vw,3rem);display:block;letter-spacing:.1em}
+.dbl{position:relative;display:inline-block}
+.dbl::before,.dbl::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%}
+.dbl::before{color:#0ff;transform:translate(3px,-2px);opacity:.6}.dbl::after{color:var(--pink);transform:translate(-3px,2px);opacity:.6}
+.fall{animation:fall 2s ease-in forwards!important;pointer-events:none}
+@keyframes fall{20%{transform:rotate(-15deg) translateY(-10px)}100%{transform:translateY(120vh) rotate(60deg);opacity:0}}
+.black{background:#000!important}
+.fadeIn{opacity:0;transition:opacity 3s}.fadeIn.on{opacity:1}
+.line{opacity:0;transform:translateY(8px);filter:blur(6px);transition:all 1.6s;font-family:var(--serif);font-size:clamp(1.2rem,4.6vw,1.7rem);line-height:1.6;min-height:1.6em;max-width:600px}
+.line.on{opacity:1;transform:none;filter:none;text-shadow:0 0 14px rgba(255,46,147,.4)}
+#love{overflow-y:auto;justify-content:flex-start;padding-top:8vh}
+#fin{background:#000}
+.star{position:absolute;border-radius:50%;background:#ff7ab8;box-shadow:0 0 8px var(--pink);animation:tw 3s ease-in-out infinite}
+@keyframes tw{50%{opacity:.15}}
+.final{font-family:var(--serif);font-size:clamp(2.4rem,10vw,5rem);text-shadow:0 0 30px var(--pink),0 0 70px var(--mag);animation:glow 3s ease-in-out infinite}
+@keyframes glow{50%{text-shadow:0 0 50px var(--pink),0 0 110px var(--pink)}}
+#arch{justify-content:flex-start;padding:48px 18px 70px}
+.card{width:100%;max-width:640px;background:var(--glass);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:22px;margin:0 auto 18px;backdrop-filter:blur(14px);text-align:left;box-shadow:0 0 30px rgba(167,139,250,.12)}
+.card .n{color:var(--pink);font-family:var(--serif);font-size:1.6rem;text-shadow:0 0 12px var(--pink)}
+.card .q{font-family:var(--serif);font-size:1.25rem;margin:2px 0 12px;color:#f3e8ff}
+.card .a{white-space:pre-wrap;line-height:1.8;color:#e6dcef;border-left:2px solid var(--mag);padding-left:14px;word-wrap:break-word}
+@media(prefers-reduced-motion:reduce){.p,.h{animation:none}}
+</style>
+</head>
+<body>
+<div id="fx"></div><div class="gl"></div>
+
+<section class="screen active" id="s-open">
+  <div class="heart">♥</div>
+  <h1>I made something for you. ♡</h1>
+  <p class="sub">A little website.<br>A few questions.<br>And something you might not expect.</p>
+  <button class="btn" onclick="go('s-name')">Begin ♡</button>
+</section>
+
+<section class="screen" id="s-name">
+  <h2>Before we begin…</h2>
+  <p class="sub">Tell me your name.</p>
+  <input id="nm" placeholder="Enter your name..." autocomplete="off" onkeydown="if(event.key==='Enter')checkName()">
+  <div id="err"></div>
+  <button class="btn" onclick="checkName()">Continue →</button>
+</section>
+
+<section class="screen" id="s-q">
+  <div class="top">A Little About You &amp; Us ♡</div>
+  <div class="prog" id="prog">01 / 15</div>
+  <div class="bar"><i id="barfill"></i></div>
+  <div id="qtext"></div>
+  <textarea id="ans" placeholder="Write from your heart..."></textarea>
+  <button class="btn" id="nextBtn" onclick="submitAns()">Submit &amp; Next →</button>
+</section>
+
+<section class="screen" id="s-done">
+  <div class="big" id="pct">0%</div>
+  <h2 style="margin-top:10px">You answered everything. ♡</h2>
+</section>
+
+<section class="screen" id="s-crash">
+  <div class="sys">
+    <b class="dbl" data-t="SYSTEM ERROR">SYSTEM ERROR</b>
+    <div>Something went wrong...</div>
+    <div>Connection unstable...</div>
+    <div>Website integrity: <span id="integ">43%</span></div>
+    <b id="crit" style="display:none;margin-top:14px" class="dbl" data-t="CRITICAL ERROR">CRITICAL ERROR</b>
+  </div>
+  <button class="btn" id="fakeBtn" style="margin-top:34px">Submit ♡</button>
+</section>
+
+<section class="screen black" id="s-del">
+  <h2 id="delq" class="dbl" data-t="Do you want to delete this website?">Do you want to delete this website?</h2>
+  <p class="sub" id="delmsg" style="min-height:2em;color:#ff7ab8"></p>
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+    <button class="btn" onclick="delYes()">YES</button>
+    <button class="btn ghost" onclick="delNo()">NO</button>
+  </div>
+</section>
+
+<section class="screen black" id="s-void">
+  <h2 class="fadeIn" id="v1">A website can be deleted...</h2>
+  <h2 class="fadeIn" id="v2" style="margin-top:34px">...but can you delete the love behind it?</h2>
+</section>
+
+<section class="screen" id="s-stay">
+  <h1>Will you stay with me?</h1>
+  <div style="display:flex;gap:16px;justify-content:center;margin-top:40px;flex-wrap:wrap">
+    <button class="btn" onclick="stayYes()">YES ❤️</button>
+    <button class="btn ghost" id="noBtn" onclick="stayNo()">NO</button>
+  </div>
+  <p class="sub" id="stayMsg" style="color:#ff7ab8"></p>
+</section>
+
+<section class="screen" id="love">
+  <div id="lines"></div>
+  <button class="btn fadeIn" id="loveBtn" style="margin:30px 0 40px" onclick="go('fin')">Continue →</button>
+</section>
+
+<section class="screen" id="fin">
+  <div class="final">Happy Boyfriend's Day ❤️</div>
+  <h2 style="margin:28px 0 12px">Aftab</h2>
+  <p class="sub" style="font-family:var(--serif);font-style:italic;font-size:1.6rem">Always, yours.</p>
+  <button class="btn fadeIn" id="lastBtn" style="margin-top:30px" onclick="showArch()">One last thing… ♡</button>
+</section>
+
+<section class="screen" id="arch">
+  <h1>Everything You Said ♡</h1>
+  <p class="sub" style="margin-bottom:28px">I wanted to keep your words somewhere.</p>
+  <div id="cards" style="width:100%"></div>
+  <p class="sub" style="font-family:var(--serif);font-size:1.5rem;margin-top:30px">You wrote these words.<br><br>I'll keep them here. ♡</p>
+  <h2 style="margin-top:20px">Happy Boyfriend's Day, Aftab.</h2>
+  <p class="sub">Thank you for being part of my story.</p>
+</section>
+
+<script>
+const Q=["What type of person do you think you are?","What type of person do you think she is?","What was your first impression of her?","What is one thing about her that you secretly love?","What are her bad habits according to you? 👀","What is one thing you wish she would change?","Deep inside, what do you actually expect from a relationship?","What makes you feel truly loved and understood?","What do you think she expects from you?","When you imagine your future, where do you see her in it?","What is one memory with her that you never want to forget?","What is something you don't usually say to her but wish she knew?","If things ever become difficult between you two, what would make you stay?","What is one promise you genuinely want to make to her?","Deep down… what does she really mean to you?"];
+const LOVE=["I don't know what the future will look like.","But I want to see you become the person you dream of becoming.","I want to see you succeed.\nI want to see you grow.\nI want to see you achieve the things you once thought were impossible.","And if you'll let me...","I want to be there beside you while you do it.","Keep going.\nKeep growing.\nKeep becoming better.","And whenever life gets difficult, remember that someone will always be cheering for you.","I'm proud of you. ❤️"];
+const $=id=>document.getElementById(id);
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let answers=store.get('bd_answers',[]),idx=store.get('bd_idx',0),glitchOn=false;
+
+// particles
+(function(){const fx=$('fx');for(let i=0;i<26;i++){const e=document.createElement('div');if(i%4===0){e.className='h';e.textContent='♥';e.style.fontSize=(8+Math.random()*10)+'px'}else{e.className='p';const s=1+Math.random()*3;e.style.width=e.style.height=s+'px'}
+e.style.left=Math.random()*100+'%';e.style.setProperty('--dx',(Math.random()*80-40)+'px');e.style.animationDuration=(9+Math.random()*12)+'s';e.style.animationDelay=(-Math.random()*20)+'s';fx.appendChild(e)}})();
+
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));const el=$(id);el.classList.add('active');el.scrollTop=0}
+function glitch(on,g){glitchOn=on;document.body.classList.toggle('glitch',on);if(g)document.body.style.setProperty('--g',g)}
+
+function checkName(){const v=$('nm').value.trim().toLowerCase();if(v==='aftab'){store.set('bd_ok',true);$('err').textContent='';startQ();return}
+const i=$('nm');i.classList.remove('shake');void i.offsetWidth;i.classList.add('shake');$('err').innerHTML='Banda thodi hai ye… 😭<br>Sahi type karo — Aftab. ♡'}
+
+function startQ(){if(idx>=15)idx=0;showQ();go('s-q')}
+function showQ(){const n=idx+1;$('prog').textContent=String(n).padStart(2,'0')+' / 15';$('barfill').style.width=((idx)/15*100)+'%';$('qtext').textContent=Q[idx];$('ans').value=answers[idx]||'';$('nextBtn').textContent=idx===14?'Submit ♡':'Submit & Next →';const s=$('s-q');s.classList.remove('active');void s.offsetWidth;s.classList.add('active')}
+function submitAns(){const v=$('ans').value.trim();if(!v){$('ans').classList.remove('shake');void $('ans').offsetWidth;$('ans').classList.add('shake');$('ans').focus();return}
+answers[idx]=v;store.set('bd_answers',answers);idx++;store.set('bd_idx',idx);
+if(idx>=15){$('barfill').style.width='100%';finish()}else showQ()}
+
+async function finish(){go('s-done');const p=$('pct');for(let i=0;i<=100;i+=2){p.textContent=i+'%';await wait(25)}
+await wait(2600);crash()}
+
+async function crash(){glitch(true,1);go('s-crash');const it=$('integ'),fb=$('fakeBtn');
+for(const v of[43,27,12,3]){it.textContent=v+'%';document.body.style.setProperty('--g',(46-v)/10+1);await wait(1100)}
+$('crit').style.display='block';await wait(1200);fb.classList.add('fall');await wait(2200);glitch(true,2);go('s-del')}
+
+const msgs=["Are you sure?","This website is trying to disappear...","Delete it?","It's getting worse...","Please… don't let it go.","Are you really sure?"];let nc=0;
+function delNo(){nc++;glitch(true,Math.min(2+nc*.9,8));$('delmsg').textContent=msgs[(nc-1)%msgs.length];const q=$('delq');q.textContent=nc%2?"Delete it?":"Do you want to delete this website?";q.dataset.t=q.textContent}
+async function delYes(){glitch(false);go('s-void');await wait(10000);$('v1').classList.add('on');await wait(4500);$('v2').classList.add('on');await wait(5500);go('s-stay')}
+function stayNo(){const b=$('noBtn');$('stayMsg').textContent="That button is broken, try the other one ♡";b.style.transform=`translate(${Math.random()*80-40}px,${Math.random()*60-30}px)`}
+function stayYes(){glitch(false);document.body.style.removeProperty('--g');love()}
+
+async function love(){go('love');const box=$('lines');box.innerHTML='';const lb=$('loveBtn');lb.classList.remove('on');
+for(const t of LOVE){const d=document.createElement('div');d.className='line';d.innerHTML=t.replace(/\n/g,'<br>');d.style.marginBottom='26px';box.appendChild(d);d.scrollIntoView({behavior:'smooth',block:'center'});await wait(60);d.classList.add('on');await wait(3200+t.length*20)}
+lb.classList.add('on');lb.scrollIntoView({behavior:'smooth',block:'center'})}
+
+(function(){const f=$('fin');for(let i=0;i<40;i++){const s=document.createElement('div');s.className='star';const z=1+Math.random()*3;s.style.cssText=`width:${z}px;height:${z}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*3}s`;f.appendChild(s)}
+for(let i=0;i<8;i++){const h=document.createElement('div');h.className='h';h.textContent='♥';h.style.cssText=`left:${Math.random()*100}%;font-size:12px;animation-duration:${10+Math.random()*8}s;animation-delay:${-Math.random()*10}s;position:absolute`;f.appendChild(h)}})();
+const obs=new MutationObserver(()=>{if($('fin').classList.contains('active')){const b=$('lastBtn');b.classList.remove('on');setTimeout(()=>b.classList.add('on'),6000)}});obs.observe($('fin'),{attributes:true,attributeFilter:['class']});
+
+function showArch(){const c=$('cards');c.innerHTML='';Q.forEach((q,i)=>{const d=document.createElement('div');d.className='card';const n=document.createElement('div');n.className='n';n.textContent=String(i+1).padStart(2,'0');const qq=document.createElement('div');qq.className='q';qq.textContent=q;const a=document.createElement('div');a.className='a';a.textContent=answers[i]||'—';d.append(n,qq,a);c.appendChild(d)});go('arch')}
+
+// resume after refresh
+if(store.get('bd_ok',false)&&idx>0&&idx<15){showQ();go('s-q')}
+</script>
+</body>
+</html>
